@@ -19,6 +19,7 @@ function toggleModal() {
 }
 
 function toggleModalAuth() {
+  loginInput.style.borderColor = '';
   modalAuth.classList.toggle("is-open");
 }
 
@@ -48,11 +49,11 @@ function authorized() {
 function notAuthorized() {
   function logIn(event) {
     event.preventDefault();
-    login = loginInput.value;
 
-    localStorage.setItem('delivery', login);
+    if (loginInput.value.trim()) {
+      login = loginInput.value;
+      localStorage.setItem('delivery', login);
 
-    if (login !== '') {
       toggleModalAuth();
 
       buttonAuth.removeEventListener('click', toggleModalAuth);
@@ -62,7 +63,7 @@ function notAuthorized() {
 
       checkAuth();
     } else {
-      loginInput.style.borderColor = 'red';
+      loginInput.style.borderColor = 'tomato';
     }
   }
 
