@@ -29,6 +29,18 @@ let login = localStorage.getItem('delivery');
 
 const cart = [];
 
+const loadCart = function() {  
+  if (localStorage.getItem(login)) {
+    JSON.parse(localStorage.getItem(login)).forEach(function(item) {
+      cart.push(item);
+    });
+  }
+};
+
+const saveCart = function() {
+  localStorage.setItem(login, JSON.stringify(cart));
+};
+
 const getData = async function(url) {
   const response = await fetch(url);
   if (!response.ok) {
@@ -61,6 +73,8 @@ function returnMain() {
 function authorized() {
   function logOut() {
     login = null;
+    cart.length = 0;
+
     localStorage.removeItem('delivery');
 
     buttonAuth.style.display = '';
@@ -82,6 +96,7 @@ function authorized() {
   cartButton.style.display = 'flex';
 
   buttonOut.addEventListener('click', logOut)
+  loadCart();
 }
 
 function notAuthorized() {
@@ -237,6 +252,7 @@ function addToCart(event) {
       });
     }
   }
+  saveCart();
 }
 
 function renderCart() {
@@ -283,6 +299,7 @@ function changeCount(event) {
 
     renderCart();
   }
+  saveCart();
 }
 
 function init() {
